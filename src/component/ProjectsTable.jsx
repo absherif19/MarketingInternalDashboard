@@ -10,17 +10,17 @@ const statusColors = {
 };
 
 const ProjectsTable = ({ data }) => {
-
-
   return (
     <div className="bg-white py-6 rounded-2xl shadow-sm border border-[#F8F9FA]">
       <div className="flex justify-between items-center mb-4 px-4 ">
-        <h2 className="text-lg font-medium text-primary">
-          Projects Details
+        <h2 className="text-lg font-medium text-primary">Projects Details</h2>
+        <h2 className="text-lg font-medium text-secondary">
+          {" "}
+          Total Projects: {data.length}
         </h2>
       </div>
 
-      <div className="overflow-x-auto max-h-[480px] overflow-y-auto custom-orange-scroll rounded">
+      <div className="overflow-x-auto max-h-[600px] overflow-y-scroll custom-orange-scroll rounded">
         <table className="min-w-full text-sm text-left border-t border-gray-100">
           <thead className="text-xs text-[#1E1E4B] bg-gray-50 sticky top-0 z-10">
             <tr>
@@ -36,7 +36,10 @@ const ProjectsTable = ({ data }) => {
           </thead>
           <tbody>
             {data.map((item, idx) => (
-              <tr key={idx} className="border-b border-[#EAECF0] hover:bg-gray-50">
+              <tr
+                key={idx}
+                className="border-b border-[#EAECF0] hover:bg-gray-50"
+              >
                 <td className="px-6 py-4">{item["Task name"] || "-"}</td>
                 <td className="px-6 py-4">{item["Design By"] || "-"}</td>
                 <td className="px-6 py-4">
@@ -61,25 +64,39 @@ const ProjectsTable = ({ data }) => {
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <a
-                    href={item["Prototype Link"] || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#2960CE] hover:bg-blue-700 text-white px-4 py-1.5 rounded text-xs"
-                  >
-                    View
-                  </a>
+                  {item["Prototype Link"] ? (
+                    <a
+                      href={item["Prototype Link"]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#2960CE] hover:bg-blue-700 text-white px-4 py-1.5 rounded text-xs"
+                    >
+                      View
+                    </a>
+                  ) : (
+                    <span className="text-gray-400 text-xs italic">
+                      No Link
+                    </span>
+                  )}
                 </td>
+
                 <td className="px-6 py-4">
-                  <a
-                    href={item["Live Link"] || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#E38136] hover:bg-orange-600 text-white px-4 py-1.5 rounded text-xs"
-                  >
-                    View
-                  </a>
+                  {item["Live Link"] ? (
+                    <a
+                      href={item["Live Link"]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#E38136] hover:bg-orange-600 text-white px-4 py-1.5 rounded text-xs"
+                    >
+                      View
+                    </a>
+                  ) : (
+                    <span className="text-gray-400 text-xs italic">
+                      No Link
+                    </span>
+                  )}
                 </td>
+
                 <td className="px-4 py-2 text-gray-500 max-w-[200px]">
                   {item["Notes"] || "-"}
                 </td>
