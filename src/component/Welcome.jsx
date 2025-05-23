@@ -3,7 +3,7 @@ import profileImg from '../assets/JamilIsmail.png'; // Replace with your image p
 
 const Welcome = () => {
   return (
-    <div className="flex flex-col md:flex-row space-y-4 items-center justify-between py-4">
+    <div className="flex flex-col md:flex-row space-y-4 items-center justify-between pt-4">
       {/* Left side: profile + name/title */}
       <div className="flex items-center gap-8">
         <img
@@ -22,7 +22,7 @@ const Welcome = () => {
       </div>
 
       {/* Right side: toggle buttons */}
-      <div className="flex flex-row gap-2">
+      <div className=" hidden md:flex flex-row gap-2">
         <button className="bg-[#2960CE] cursor-pointer text-white w-[160px] md:w-[220px] py-2.5 rounded-md px-1  md:text-sm text-xs font-medium">
          UI UX / Development Team
         </button>

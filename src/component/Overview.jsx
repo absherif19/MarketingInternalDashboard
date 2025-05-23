@@ -87,7 +87,7 @@ const handleStatClick = (filterKey, filterValue) => {
 
   return (
     <div className="bg-white border border-[#F8F9FA] px-0 md:px-8 py-0 md:py-14 rounded-3xl custom-shadow-soft flex flex-col space-y-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
         {stats.map((stat, i) => {
           const isActive =
             (stat.filterKey === "designStatus" &&

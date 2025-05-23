@@ -1,19 +1,24 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import gifBackground from '../../assets/login.gif';
+import loginVideo from '../../assets/login.mp4'; // make sure your video is in this path
 
 const ImageSection = () => {
   return (
     <div className="hidden lg:block lg:w-1/2 h-screen relative overflow-hidden bg-black">
-      {/* GIF Background */}
-      <motion.img
-        src={gifBackground}
-        alt="Login Background"
+      {/* Video Background */}
+      <motion.video
+        autoPlay
+        loop
+        muted
+        playsInline
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="absolute top-0 left-0 w-full h-full object-cover"
-      />
+        className="absolute top-0 left-0 mt-16 object-cover"
+      >
+        <source src={loginVideo} type="video/mp4" />
+        Your browser does not support the video tag.
+      </motion.video>
 
       {/* Bottom-left Overlay content */}
       <motion.div

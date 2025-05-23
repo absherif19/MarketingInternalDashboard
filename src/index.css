@@ -2,34 +2,40 @@
 
 @font-face {
   font-family: "Poppins";
-  src: url("/Fonts/Poppins-Regular.ttf") format("truetype");
+  src: url("/services/CorporateMarketing/Fonts/poppins/Poppins-light.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("/services/CorporateMarketing/Fonts/poppins/Poppins-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("/Fonts/Poppins-Medium.ttf") format("truetype");
+  src: url("/services/CorporateMarketing/Fonts/poppins/Poppins-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("/Fonts/Poppins-SemiBold.ttf") format("truetype");
+  src: url("/services/CorporateMarketing/Fonts/poppins/Poppins-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("/Fonts/Poppins-Bold.ttf") format("truetype");
+  src: url("/services/CorporateMarketing/Fonts/poppins/Poppins-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
 }
 
 body {
-  font-family: "Poppins", sans-serif !important;
+  font-family: "Poppins" !important;
   overscroll-behavior: none;
 }
 

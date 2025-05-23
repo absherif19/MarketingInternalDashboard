@@ -13,9 +13,8 @@ import Footer from "./footer";
 import Loading from "./Loading";
 import { motion } from "framer-motion";
 
-
-const Main = () => {
-      const [sheetData, setSheetData] = useState([]);
+const Main = ({ setIsSidebarOpen, isMenuOpen }) => {
+  const [sheetData, setSheetData] = useState([]);
   const [loading, setLoading] = useState(true); // ✅ add this
   const [filters, setFilters] = useState({
     designer: "All",
@@ -24,7 +23,6 @@ const Main = () => {
     projectStatus: "All",
     ToTeam: "All",
   });
-
 
   useEffect(() => {
     const loadData = async () => {
@@ -78,11 +76,14 @@ const Main = () => {
     );
   }
 
-
   return (
     <>
-      <Header />
-      <div className="p-2 md:px-24 pb-24 space-y-6 fade-in">
+<Header
+  isMenuOpen={isMenuOpen}
+  onMenuClick={() => setIsSidebarOpen(!isMenuOpen)}
+  setIsSidebarOpen={setIsSidebarOpen}
+/>
+      <div className="p-2 md:px-24 pb-24 space-y-4 fade-in">
         <Welcome />
         <Overview
           data={filteredData}
@@ -117,7 +118,8 @@ const Main = () => {
               <TeamCollaborationChart
                 filteredData={filteredData}
                 filters={filters}
-          setFilters={setFilters}              />
+                setFilters={setFilters}
+              />
             </div>
 
             {/* Table for mobile only */}
@@ -171,24 +173,24 @@ const Main = () => {
         </motion.div>
       </div>
       {/* Clear Filters Floating Button */}
-<button
-  onClick={() =>
-    setFilters({
-      designer: "All",
-      developer: "All",
-      designStatus: "All",
-      projectStatus: "All",
-      ToTeam: "All",
-    })
-  }
-  className="fixed bottom-6 right-6 z-50 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md shadow-lg text-sm font-medium transition-all"
->
-  Clear Filters
-</button>
+      <button
+        onClick={() =>
+          setFilters({
+            designer: "All",
+            developer: "All",
+            designStatus: "All",
+            projectStatus: "All",
+            ToTeam: "All",
+          })
+        }
+        className="fixed bottom-6 right-6 z-50 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md shadow-lg text-sm font-medium transition-all"
+      >
+        Clear Filters
+      </button>
 
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;

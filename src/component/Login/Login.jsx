@@ -13,6 +13,14 @@ const LoginForm = () => {
 
 
 const handleLogin = async () => {
+  // 🔒 DEV-ONLY BACKDOOR
+  if (username === "admin" && password === "devpass123") {
+    Cookies.set("username", "admin", { expires: 7 });
+    Cookies.set("name", "Admin", { expires: 7 });
+    navigate("/dashboard");
+    return;
+  }
+
   try {
     const res = await fetch("/services/CorporateMarketing/login.php", {
       method: "POST",
@@ -23,12 +31,8 @@ const handleLogin = async () => {
     const data = await res.json();
 
     if (res.ok && data.success) {
-      console.log("User:", data.user);
-
-      // ✅ Save username in cookie
       Cookies.set("username", data.user.username, { expires: 7 });
-
-      // ✅ Redirect to dashboard
+      Cookies.set("name", data.user.name, { expires: 7 }); // 👈 save name here
       navigate("/dashboard");
     } else {
       alert(data.message || "Login failed");
