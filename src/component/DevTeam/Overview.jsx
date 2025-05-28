@@ -1,9 +1,9 @@
 import React from "react";
-import globe from "../assets/icons/globe.png";
-import palette from "../assets/icons/palette.png";
-import laptop from "../assets/icons/laptop.png";
-import tools from "../assets/icons/tools.png";
-import code from "../assets/icons/code.png";
+import globe from "../../assets/icons/globe.png";
+import palette from "../../assets/icons/palette.png";
+import laptop from "../../assets/icons/laptop.png";
+import tools from "../../assets/icons/tools.png";
+import code from "../../assets/icons/code.png";
 import { motion } from "framer-motion";
 
 const Overview = ({ data, filters, setFilters }) => {

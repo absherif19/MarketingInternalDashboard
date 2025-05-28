@@ -1,18 +1,37 @@
-import React from 'react'
-import profileImg from '../assets/JamilIsmail.png'; // Replace with your image path
+import React from 'react';
+import profileImg from '../assets/JamilIsmail.png';
+import burger from "../assets/icons/Menu.png";
 
-const Welcome = () => {
+const Welcome = ({ isMenuOpen, setIsSidebarOpen, activeTab }) => {
+  const toggleMenu = () => setIsSidebarOpen(!isMenuOpen);
+
   return (
-    <div className="flex flex-col md:flex-row space-y-4 items-center justify-between pt-4">
-      {/* Left side: profile + name/title */}
-      <div className="flex items-center gap-8">
+    <div className="flex justify-between items-center w-full pt-4 px-4 md:px-10">
+      {/* Left side: Hamburger + Label */}
+      <div className="flex items-center gap-4">
+        <img
+          src={burger}
+          alt="Toggle Menu"
+          className="w-5 cursor-pointer"
+          onClick={toggleMenu}
+        />
+<h2 className="text-sm md:text-2xl font-medium text-primary">
+  {activeTab === "dev"
+    ? "UIUX & Development Team"
+    : "Corporate Team"}
+</h2>
+
+      </div>
+
+      {/* Right side: Profile */}
+      <div className="flex items-center gap-4">
         <img
           src={profileImg}
           alt="Jamil Ismail"
           className="w-20 h-20 rounded-xl object-cover"
         />
         <div>
-          <h2 className="text-base md:text-lg font-medium text-primary">
+          <h2 className="text-base md:text-xl font-medium text-primary">
             Jamil Ismail
           </h2>
           <p className="text-base md:text-lg text-secondary font-normal">
@@ -20,18 +39,8 @@ const Welcome = () => {
           </p>
         </div>
       </div>
-
-      {/* Right side: toggle buttons */}
-      <div className=" hidden md:flex flex-row gap-2">
-        <button className="bg-[#2960CE] cursor-pointer text-white w-[160px] md:w-[220px] py-2.5 rounded-md px-1  md:text-sm text-xs font-medium">
-         UI UX / Development Team
-        </button>
-        <button className="border cursor-not-allowed border-[#2960CE] text-[#2960CE]  w-[160px] md:w-[220px] py-2.5 px-1 rounded-md md:text-sm text-xs font-medium">
-          Marketing Team
-        </button>
-      </div>
     </div>
   );
-}
+};
 
-export default Welcome
+export default Welcome;

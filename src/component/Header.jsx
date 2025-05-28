@@ -17,30 +17,29 @@ const Header = ({ onMenuClick, isMenuOpen }) => {
   };
 
   const name = Cookies.get("name");
-  
 
   return (
     <div className="bg-white">
       {/* Top Logo and Department */}
       <div className="flex custom-shadow-soft items-center justify-between p-4 md:px-24 py-4">
         {/* Burger Icon (only visible on mobile) */}
-<div className="block md:hidden mr-4">
-  {isMenuOpen ? (
-    <img
-      src={backicon}
-      alt="Back"
-      onClick={onMenuClick}
-      className="w-10 h-10 cursor-pointer opacity-100"
-    />
-  ) : (
-    <img
-      src={Menu}
-      alt="Menu"
-      onClick={onMenuClick}
-      className="w-6 h-6 cursor-pointer opacity-100"
-    />
-  )}
-</div>
+        <div className="block md:hidden mr-4">
+          {isMenuOpen ? (
+            <img
+              src={backicon}
+              alt="Back"
+              onClick={onMenuClick}
+              className="w-10 h-10 cursor-pointer opacity-100"
+            />
+          ) : (
+            <img
+              src={Menu}
+              alt="Menu"
+              onClick={onMenuClick}
+              className="w-6 h-6 cursor-pointer opacity-100"
+            />
+          )}
+        </div>
 
         {/* Logo */}
         <img src={psiLogo} alt="PSI Logo" className="md:h-18 h-10" />
@@ -68,7 +67,7 @@ const Header = ({ onMenuClick, isMenuOpen }) => {
 
           {/* Dropdown Menu */}
           {isOpen && (
-            <div className="absolute w-full right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+            <div className="absolute w-full min-w-[150px] right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg z-50">
               <button
                 onClick={handleLogout}
                 className="block w-full text-center px-6 py-3 text-sm text-red-500 hover:bg-gray-100"

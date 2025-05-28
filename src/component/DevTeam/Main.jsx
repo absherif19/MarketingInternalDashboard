@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Header from "./Header";
-import { fetchGoogleSheetData } from "../fetch/fetchSheet";
-import Welcome from "./Welcome";
+import Header from "../Header";
+import { fetchGoogleSheetData } from "../../fetch/fetchSheet";
+import Welcome from "../Welcome";
 import Overview from "./Overview";
 import TeamMembers from "./TeamMembers";
 import TeamCollaborationChart from "./TeamCollaborationChart";
@@ -9,13 +9,12 @@ import TeamCollaborationTabel from "./TeamCollaborationTabel";
 import Designers from "./Designers";
 import Developers from "./Developers";
 import ProjectsTable from "./ProjectsTable";
-import Footer from "./footer";
-import Loading from "./Loading";
+import Footer from "../footer";
+import Loading from "../Loading";
 import { motion } from "framer-motion";
 
-const Main = ({ setIsSidebarOpen, isMenuOpen }) => {
+const Main = ({setLoading}) => {
   const [sheetData, setSheetData] = useState([]);
-  const [loading, setLoading] = useState(true); // ✅ add this
   const [filters, setFilters] = useState({
     designer: "All",
     developer: "All",
@@ -26,14 +25,15 @@ const Main = ({ setIsSidebarOpen, isMenuOpen }) => {
 
   useEffect(() => {
     const loadData = async () => {
+              setLoading(true);
+
       const data = await fetchGoogleSheetData();
       console.log("Fetched data:", data); // Log the fetched data
       setSheetData(data);
 
       // Delay hiding the loading screen by at least 3 seconds
-      setTimeout(() => {
         setLoading(false);
-      }, 3000);
+
     };
 
     loadData();
@@ -68,23 +68,13 @@ const Main = ({ setIsSidebarOpen, isMenuOpen }) => {
     );
   });
 
-  if (loading) {
-    return (
-      <div className="w-screen h-screen flex items-center justify-center bg-white">
-        <Loading />
-      </div>
-    );
-  }
+
 
   return (
     <>
-<Header
-  isMenuOpen={isMenuOpen}
-  onMenuClick={() => setIsSidebarOpen(!isMenuOpen)}
-  setIsSidebarOpen={setIsSidebarOpen}
-/>
+
       <div className="p-2 md:px-24 pb-24 space-y-4 fade-in">
-        <Welcome />
+
         <Overview
           data={filteredData}
           filters={filters}
@@ -183,7 +173,7 @@ const Main = ({ setIsSidebarOpen, isMenuOpen }) => {
             ToTeam: "All",
           })
         }
-        className="fixed bottom-6 right-6 z-50 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md shadow-lg text-sm font-medium transition-all"
+        className="fixed bottom-14 right-6 z-50 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md shadow-lg text-sm font-medium transition-all"
       >
         Clear Filters
       </button>

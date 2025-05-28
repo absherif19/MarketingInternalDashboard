@@ -5,7 +5,7 @@ import { FiLogOut } from "react-icons/fi";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = ({ isOpen, setActiveTab }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -13,7 +13,7 @@ const Sidebar = ({ isOpen }) => {
     Cookies.remove("name"); // remove any other cookies like token if needed
     navigate("/");
   };
-const name = Cookies.get("name");
+  const name = Cookies.get("name");
 
   return (
     <motion.div
@@ -43,16 +43,26 @@ const name = Cookies.get("name");
 
           {/* Navigation Items */}
           <div className="space-y-6">
-            <div className="flex  items-center gap-3  cursor-pointer hover:text-orange-300">
-              <FaLaptopCode />
+            <div
+              onClick={() => {
+                setActiveTab("dev");
+              }}
+              className="flex  items-center gap-3  cursor-pointer hover:text-orange-300"
+            >
+              <FaLaptopCode className="text-xl" />
               <span className="font-medium text-sm">
                 Ui/Ux Team/ Development Team
               </span>
             </div>
 
-            <div className="flex items-center gap-3 text-sm cursor-pointer hover:text-orange-300">
-              <FaPalette />
-              <span>Marketing Team</span>
+            <div
+              onClick={() => {
+                setActiveTab("corp");
+              }}
+              className="flex items-center gap-3 text-sm cursor-pointer hover:text-orange-300"
+            >
+              <FaPalette className="text-xl"/>
+              <span>Corporate Team</span>
             </div>
           </div>
         </div>
@@ -62,13 +72,13 @@ const name = Cookies.get("name");
           onClick={handleLogout}
           className=" flex items-center gap-3 text-sm cursor-pointer hover:text-red-400"
         >
-          <FiLogOut />
+          <FiLogOut className="text-xl"/>
           <span>Log out</span>
         </div>
 
         {/* Footer */}
         <div className="flex flex-col space-y-2 text-xs text-white/70">
-          <p>Powered by Marketing Team</p>
+          <p>Powered by UIUX & Development Team - Marketing Team</p>
           <p>© 2025 PSI. All rights reserved.</p>
         </div>
       </div>
