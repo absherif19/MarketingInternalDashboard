@@ -10,7 +10,7 @@ const team = [
     id: "01",
     name: "Joey Mekhael Al Azzi",
     sheetName: "Joey",
-    title: "Marketing Coordinator",
+    title: "Barnding & Marketing Specialist",
     image: joey,
     level: "coordinator", // 🔹
   },
@@ -25,7 +25,7 @@ const team = [
   {
     id: "03",
     name: "Youssef Mazen",
-    sheetName: "youssef",
+    sheetName: "Youssef",
     title: "Motion Graphic Designer",
     image: youssef,
     level: "employee", // 🔹
@@ -33,7 +33,7 @@ const team = [
   {
     id: "04",
     name: "Sherif Magdy",
-    sheetName: "sherif magdy",
+    sheetName: "Sherif",
     title: "Branding Designer",
     image: sherifmagdy,
     level: "employee", // 🔹
@@ -41,7 +41,7 @@ const team = [
   {
     id: "05",
     name: "Mark Jasper",
-    sheetName: "mark",
+    sheetName: "Mark",
     title: "Marketing Support",
     image: mark,
     level: "employee", // 🔹
@@ -51,17 +51,16 @@ const TeamMembers = ({ setFilters, filters }) => {
 const handleRowClick = (member) => {
   setFilters((prev) => {
     const key = member.level === "coordinator" ? "from" : "designer";
-    const valueToMatch = member.sheetName;
+
+    const prevValue = prev[key]?.toLowerCase();
+    const currentValue = member.sheetName?.toLowerCase();
 
     return {
       ...prev,
-      [key]: prev[key]?.toLowerCase() === valueToMatch.toLowerCase()
-        ? "All"
-        : valueToMatch,
+      [key]: prevValue === currentValue ? "All" : member.sheetName,
     };
   });
 };
-
 
 const activeMembers = team;
 

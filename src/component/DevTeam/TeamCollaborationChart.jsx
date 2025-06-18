@@ -111,13 +111,22 @@ console.log("Teams grouped under 'Others':", [...othersSet]);
 
 chart.on("click", function (params) {
   const team = params.name;
-  if (team === "Others") return;
+
+  if (team === "Others") {
+    const othersArray = [...othersSet];
+    setFilters((prev) => ({
+      ...prev,
+      ToTeam: prev.ToTeam === "Others" ? "All" : othersArray,
+    }));
+    return;
+  }
 
   setFilters((prev) => ({
     ...prev,
     ToTeam: prev.ToTeam === team ? "All" : team,
   }));
 });
+
 
 
 

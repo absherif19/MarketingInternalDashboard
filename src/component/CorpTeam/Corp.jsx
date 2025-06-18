@@ -1,15 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
-const Technicals = ({ data, setFilters }) => {
+const Corp = ({ data, setFilters }) => {
   const chartRef = useRef(null);
 
-  // ✅ Extract technicals outside of useEffect so we can use them in JSX
-  const technicalsSet = new Set();
+  // ✅ Extract corporates outside of useEffect so we can use them in JSX
+  const corporatesSet = new Set();
   data?.forEach((item) => {
-    if (item["employee"]) technicalsSet.add(item["employee"]);
+    const corporate = item["From"];
+    if (corporate && corporate.toLowerCase() !== "no need") {
+      corporatesSet.add(corporate);
+    }
   });
-  const technicals = Array.from(technicalsSet);
+  const corporates = Array.from(corporatesSet);
 
   useEffect(() => {
     if (!data || data.length === 0 || !chartRef.current) return;
@@ -25,10 +28,10 @@ const Technicals = ({ data, setFilters }) => {
     };
 
     statuses.forEach((status) => {
-      technicals.forEach((technical) => {
+      corporates.forEach((corporate) => {
         const count = data.filter(
           (item) =>
-            item["employee"] === technical &&
+            item["From"] === corporate &&
             (item["Status"] || "").toLowerCase() === status.toLowerCase()
         ).length;
         formattedData[status].push(count === 0 ? 0.2 : count);
@@ -46,6 +49,7 @@ const Technicals = ({ data, setFilters }) => {
       name: status,
       type: 'bar',
       barWidth: 18,
+      barCategoryGap: '50%',
       data: formattedData[status],
       itemStyle: {
         color: colors[status],
@@ -87,13 +91,13 @@ const Technicals = ({ data, setFilters }) => {
       },
       xAxis: {
         type: 'category',
-        data: technicals,
+        data: corporates,
         axisLabel: {
           color: '#1E1E4B',
           interval: 0,
           fontSize: 12,
           formatter: (name) => {
-            const maxChars = 18;
+            const maxChars = 10;
             if (name.length <= maxChars) return name;
             return name.match(new RegExp(`.{1,${maxChars}}`, 'g')).join('\n');
           },
@@ -119,36 +123,36 @@ const Technicals = ({ data, setFilters }) => {
       series,
     });
 
-    // ✅ Click on a bar → filter by technical
+    // ✅ Click on a bar → filter by corporate
     chart.on('click', (params) => {
-      const clickedTechnical = params.name;
+      const clickedCorporate = params.name;
 
-      if (technicals.includes(clickedTechnical)) {
+      if (corporates.includes(clickedCorporate)) {
         setFilters(prev => ({
           ...prev,
-          technical: prev.technical === clickedTechnical ? "All" : clickedTechnical,
+          developer: prev.developer === clickedCorporate ? "All" : clickedCorporate,
         }));
       }
     });
 
-    // ✅ Click on legend → filter by technical status
+    // ✅ Click on legend → filter by project status
     chart.on('legendselectchanged', function (params) {
       const status = params.name;
       setFilters(prev => ({
         ...prev,
-        technicalStatus: prev.technicalStatus === status ? "All" : status,
+        projectStatus: prev.projectStatus === status ? "All" : status
       }));
     });
 
     return () => chart.dispose();
-  }, [data, technicals]);
+  }, [data, corporates]);
 
   return (
     <div className="bg-white p-6 rounded-2xl custom-shadow-soft border border-[#F8F9FA]">
-      <h3 className="text-xl font-medium text-primary mb-4">Technicals</h3>
+      <h3 className="text-xl font-medium text-primary mb-4">Corporates</h3>
 
-      <div className="overflow-x-auto md:overflow-x-hidden">
-        <div style={{ minWidth: technicals.length * 140 }}>
+      <div className="overflow-x-auto">
+        <div style={{ minWidth: corporates.length * 140 }}>
           <div
             ref={chartRef}
             style={{
@@ -162,4 +166,4 @@ const Technicals = ({ data, setFilters }) => {
   );
 };
 
-export default Technicals;
+export default Corp;

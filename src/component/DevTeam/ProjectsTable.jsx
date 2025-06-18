@@ -1,5 +1,5 @@
-// ProjectsTable.jsx
-import React from "react";
+import { FiSearch } from "react-icons/fi";
+import React, { useState } from "react";
 
 const statusColors = {
   Completed: "bg-green-100 text-green-600",
@@ -10,15 +10,39 @@ const statusColors = {
 };
 
 const ProjectsTable = ({ data }) => {
+  const [search, setSearch] = useState("");
+
+const filteredData = data
+  .filter((item) =>
+    item["Task name"]?.toLowerCase().includes(search.toLowerCase())
+  )
+.sort((a, b) => {
+  const dateA = new Date(a["Last Update (Auto)"] || 0);
+  const dateB = new Date(b["Last Update (Auto)"] || 0);
+  return dateB - dateA;
+});
+
   return (
     <div className="bg-white py-6 rounded-2xl shadow-sm border border-[#F8F9FA]">
-      <div className="flex justify-between items-center mb-4 px-4 ">
-        <h2 className="text-lg font-medium text-primary">Projects Details</h2>
-        <h2 className="text-lg font-medium text-secondary">
-          {" "}
-          Total Projects: {data.length}
-        </h2>
-      </div>
+<div className="flex justify-between items-center mb-4 px-4">
+  <h2 className="text-lg font-medium text-primary">
+    Projects Details - ({filteredData.length})
+  </h2>
+
+  <div className="relative min-w-[350px]">
+    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <FiSearch className="text-gray-400 w-4 h-4" />
+    </div>
+    <input
+      type="text"
+      placeholder="Search by task name..."
+      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+  </div>
+</div>
+
 
       <div className="overflow-x-auto max-h-[600px] overflow-y-scroll custom-orange-scroll rounded">
         <table className="min-w-full text-sm text-left border-t border-gray-100">
@@ -32,10 +56,11 @@ const ProjectsTable = ({ data }) => {
               <th className="px-4 py-3">Prototype</th>
               <th className="px-4 py-3">Live</th>
               <th className="px-4 py-3">Notes</th>
+              <th className="px-4 py-3">Last Update</th>
             </tr>
           </thead>
           <tbody>
-            {data.map((item, idx) => (
+            {filteredData.map((item, idx) => (
               <tr
                 key={idx}
                 className="border-b border-[#EAECF0] hover:bg-gray-50"
@@ -99,6 +124,9 @@ const ProjectsTable = ({ data }) => {
 
                 <td className="px-4 py-2 text-gray-500 max-w-[200px]">
                   {item["Notes"] || "-"}
+                </td>
+                <td className="px-6 py-4">
+                  {item["Last Update (Auto)"] || "-"}
                 </td>
               </tr>
             ))}

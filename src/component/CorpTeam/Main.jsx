@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { fetchGoogleSheetData } from "../../fetch/fetchCorpData";
 import Overview from "./Overview";
 import TeamMembers from "./TeamMembers";
@@ -7,11 +8,10 @@ import TeamCollaborationTabel from "./TeamCollaborationTabel";
 import Designers from "./Designers";
 import ProjectsTable from "./ProjectsTable";
 import Footer from "../footer";
-import Loading from "../Loading";
 import { motion } from "framer-motion";
+import Corp from "./Corp";
 
-const MainCorp = ({setLoading}) => {
-  const [sheetData, setSheetData] = useState([]);
+const MainCorp = ({ setLoading, atBottom }) => {
   const [filters, setFilters] = useState({
     designer: "All",
     from: "All",
@@ -19,53 +19,51 @@ const MainCorp = ({setLoading}) => {
     ToTeam: "All",
   });
 
-  console.log("Filters:", filters); // Log the initial filters state
+  const {
+    data: sheetData = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["corpSheetData"],
+    queryFn: fetchGoogleSheetData,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    cacheTime: 1000 * 60 * 10, // 10 minutes
+  });
+
   useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
 
-    const loadData = async () => {
-                    setLoading(true);
+  const filteredData = sheetData.filter((item) => {
+    const employeeMatch =
+      filters.designer === "All" ||
+      item["employee"]?.toLowerCase() === filters.designer.toLowerCase();
 
-      const data = await fetchGoogleSheetData();
-      console.log("Fetched data:", data); // Log the fetched data
-      setSheetData(data);
+    const fromMatch =
+      filters.from === "All" ||
+      item["From"]?.toLowerCase() === filters.from.toLowerCase();
 
-      // Delay hiding the loading screen by at least 3 seconds
-        setLoading(false);
+    const statusMatch =
+      filters.Status === "All" ||
+      (item["Status"] || "").toLowerCase() === filters.Status.toLowerCase();
 
-    };
+    const toTeamMatch =
+      filters.ToTeam === "All" || item["To Team"] === filters.ToTeam;
 
-    loadData();
-  }, []);
+    return employeeMatch && fromMatch && statusMatch && toTeamMatch;
+  });
 
-const filteredData = sheetData.filter((item) => {
-  const employeeMatch =
-    filters.designer === "All" ||
-    item["employee"]?.toLowerCase() === filters.designer.toLowerCase();
-
-  const fromMatch =
-    filters.from === "All" ||
-    item["From"]?.toLowerCase() === filters.from.toLowerCase();
-
-  const statusMatch =
-    filters.Status === "All" ||
-    (item["Status"] || "").toLowerCase() === filters.Status.toLowerCase();
-
-  const toTeamMatch =
-    filters.ToTeam === "All" || item["To Team"] === filters.ToTeam;
-
-  return employeeMatch && fromMatch && statusMatch && toTeamMatch;
-});
-
-
-console.log("Filtered Data:", filteredData); // Log the filtered data
-
-
+  if (isError) {
+    return (
+      <div className="text-center text-red-600 p-6">
+        ❌ Failed to load data from Google Sheets.
+      </div>
+    );
+  }
 
   return (
     <>
-
       <div className="p-2 md:px-24 pb-24 space-y-4 fade-in">
-
         <Overview
           data={filteredData}
           filters={filters}
@@ -94,7 +92,6 @@ console.log("Filtered Data:", filteredData); // Log the filtered data
             viewport={{ once: true, amount: 0.2 }}
             className="w-full md:w-1/2"
           >
-            {/* Chart for tablets and up */}
             <div className="hidden sm:block w-full">
               <TeamCollaborationChart
                 filteredData={filteredData}
@@ -103,23 +100,23 @@ console.log("Filtered Data:", filteredData); // Log the filtered data
               />
             </div>
 
-            {/* Table for mobile only */}
             <div className="block sm:hidden w-full">
               <TeamCollaborationTabel
                 filteredData={filteredData}
                 filters={filters}
                 setFilters={setFilters}
-              />{" "}
+              />
             </div>
           </motion.div>
         </div>
-        <div className="w-full">
+
+        <div className="w-full flex-col md:flex-row flex gap-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             viewport={{ once: true, amount: 0.2 }}
-            className="w-full"
+            className="w-full md:w-1/2"
           >
             <Designers
               data={filteredData}
@@ -135,6 +132,11 @@ console.log("Filtered Data:", filteredData); // Log the filtered data
             viewport={{ once: true, amount: 0.2 }}
             className="w-full md:w-1/2"
           >
+            <Corp
+              data={filteredData}
+              filters={filters}
+              setFilters={setFilters}
+            />
           </motion.div>
         </div>
 
@@ -148,20 +150,22 @@ console.log("Filtered Data:", filteredData); // Log the filtered data
           <ProjectsTable data={filteredData} />
         </motion.div>
       </div>
-      {/* Clear Filters Floating Button */}
+
       <button
         onClick={() =>
           setFilters({
-    designer: "All",
-    from: "All",
-    Status: "All",
-    ToTeam: "All",
+            designer: "All",
+            from: "All",
+            Status: "All",
+            ToTeam: "All",
           })
         }
-        className="fixed bottom-14 right-6 z-50 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md shadow-lg text-sm font-medium transition-all"
-      >
-        Clear Filters
-      </button>
+  className={`fixed right-6 z-50 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-md shadow-lg text-sm font-medium transition-all duration-300 ${
+    atBottom ? "bottom-16" : "bottom-6"
+  }`}
+>
+  Clear Filters
+</button>
 
       <Footer />
     </>

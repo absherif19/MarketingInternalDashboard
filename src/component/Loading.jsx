@@ -10,7 +10,7 @@ const Loading = () => {
         “We’re loading your data now — thanks for your patience, and don’t forget to smile!”
       </h2>
       <video
-        className="w-[200px] md:w-[300px] mx-auto"
+        className="w-[150px] md:w-[200px] mx-auto"
         autoPlay
         loop
         muted

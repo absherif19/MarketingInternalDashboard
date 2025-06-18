@@ -13,6 +13,7 @@ const knownTeams = ["PSI", "BD", "HR", "Mr Said", "CRM", "L&D", "Internal"];
 const teamCounts = {};
 const othersSet = new Set(); // <-- collect "Others"
 
+
 filteredData.forEach((item) => {
   const team = item["To Team"] || "None";
   const teamKey = knownTeams.includes(team) ? team : "Others";
@@ -20,6 +21,7 @@ filteredData.forEach((item) => {
   if (teamKey === "Others") {
     othersSet.add(team); // <-- collect unknown team name
   }
+
 
   teamCounts[teamKey] = (teamCounts[teamKey] || 0) + 1;
 });
@@ -111,13 +113,23 @@ console.log("Teams grouped under 'Others':", [...othersSet]);
 
 chart.on("click", function (params) {
   const team = params.name;
-  if (team === "Others") return;
+
+  if (team === "Others") {
+    const othersArray = [...othersSet];
+    setFilters((prev) => ({
+      ...prev,
+      ToTeam: prev.ToTeam === "Others" ? "All" : othersArray,
+    }));
+    return;
+  }
 
   setFilters((prev) => ({
     ...prev,
     ToTeam: prev.ToTeam === team ? "All" : team,
   }));
 });
+
+
 
 
 

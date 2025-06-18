@@ -47,11 +47,11 @@ const Sidebar = ({ isOpen, setActiveTab }) => {
               onClick={() => {
                 setActiveTab("dev");
               }}
-              className="flex  items-center gap-3  cursor-pointer hover:text-orange-300"
+              className="flex  items-center gap-3  cursor-pointer hover:text-[#E35F27]"
             >
               <FaLaptopCode className="text-xl" />
               <span className="font-medium text-sm">
-                Ui/Ux Team/ Development Team
+                UIUX & Development Team
               </span>
             </div>
 
@@ -59,7 +59,7 @@ const Sidebar = ({ isOpen, setActiveTab }) => {
               onClick={() => {
                 setActiveTab("corp");
               }}
-              className="flex items-center gap-3 text-sm cursor-pointer hover:text-orange-300"
+              className="flex items-center gap-3 text-sm cursor-pointer hover:text-[#E35F27]"
             >
               <FaPalette className="text-xl"/>
               <span>Corporate Team</span>

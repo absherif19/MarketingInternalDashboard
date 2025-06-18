@@ -41,16 +41,34 @@ const team = [
     title: "Web Developer",
     image: dummy,
   },
+  {
+    id: "06",
+    name: "Amr Mohamed",
+    sheetName: "Amr",
+    title: "UI UX Designer",
+    image: "https://apigateway.psi-crm.com/FileManager/File/DownloadPublicFile/8a1f20bb-48d0-4991-8e44-80d0897d4c33",
+  },
 ];
 
 const TeamMembers = ({ setFilters, filters, filteredData }) => {
-  const handleRowClick = (member) => {
-    if (member.title === "Web Developer") {
-      setFilters((prev) => ({ ...prev, developer: member.sheetName }));
-    } else if (member.title === "UI UX Designer") {
-      setFilters((prev) => ({ ...prev, designer: member.sheetName }));
-    }
-  };
+const handleRowClick = (member) => {
+  setFilters((prev) => {
+    let key = null;
+
+    if (member.title === "Web Developer") key = "developer";
+    else if (member.title === "UI UX Designer") key = "designer";
+
+    if (!key) return prev;
+
+    const prevValue = prev[key]?.toLowerCase();
+    const currentValue = member.sheetName?.toLowerCase();
+
+    return {
+      ...prev,
+      [key]: prevValue === currentValue ? "All" : member.sheetName,
+    };
+  });
+};
 
   const activeMembers = team.filter((member) => {
     if (member.title === "Web Developer") {
@@ -67,7 +85,7 @@ const TeamMembers = ({ setFilters, filters, filteredData }) => {
   return (
     <div className="bg-white border border-[#F8F9FA] rounded-3xl p-2 md:p-6 custom-shadow-soft">
       <h2 className="text-xl font-medium text-primary mb-4">Team Members</h2>
-      <div className="overflow-x-auto">
+      <div className="overflow-y-auto max-h-[400px] custom-orange-scroll">
         <table className="min-w-full text-left text-sm">
           <thead>
             <tr>

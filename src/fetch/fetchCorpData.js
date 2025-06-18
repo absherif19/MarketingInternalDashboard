@@ -3,11 +3,15 @@ import Papa from 'papaparse';
 const URLS = [
   {
     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdv2PeD0hFYFNjhDvVXw9O23xwSfyUGqFHsKeuTUgBnfrtameF_MGqe19FhrIncg/pub?gid=1885781965&single=true&output=csv',
-    employee: 'youssef'
+    employee: 'Youssef'
   },
   {
     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqGenIXZCpTNdN3i9oaIpJLgzu3Ps5V83RyZQUskAH42MLoutJNeMFHQ93T96i_Q/pub?gid=33121698&single=true&output=csv',
-    employee: 'sherif magdy'
+    employee: 'Sherif'
+  },
+  {
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTOrWb9DjpneTupYYi7dWHSTjEkkZfOkzz5nsZahWqDh0DLtNQHTI7KS1LJNWYVTA/pub?output=csv',
+    employee: 'Mark'
   }
 ];
 

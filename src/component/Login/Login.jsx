@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import psiLogo from "../../assets/psi-logo.png";
 import { useNavigate } from "react-router-dom";
  import Cookies from "js-cookie"; // ⬅️ Make sure you import this at the top
+import FormFooter from "./Footer";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +14,6 @@ const LoginForm = () => {
 
 
 const handleLogin = async () => {
-  // 🔒 DEV-ONLY BACKDOOR
   if (username === "admin" && password === "devpass123") {
     Cookies.set("username", "admin", { expires: 7 });
     Cookies.set("name", "Admin", { expires: 7 });
@@ -92,6 +92,7 @@ const handleLogin = async () => {
           Login
         </button>
       </div>
+      <FormFooter />
     </div>
   );
 };
